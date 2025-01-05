@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WATCH MOVIES</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #121212;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(45deg, #f44336, #e91e63);
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+            text-shadow: 0 0 10px #f44336, 0 0 20px #e91e63;
+        }
+
+        
+        /* App Logo Section */
+        .app-logo-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-logo-container img {
+            max-width: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .app-logo-container img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 1px 5px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Chapter Navigation */
+        .chapter-nav {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background-color: #333;
+            overflow-x: auto;
+            white-space: nowrap;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .chapter-nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 12px 20px;
+            border-radius: 50px;
+            background-color: #444;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-shadow: 0 0 5px #f44336, 0 0 10px #f44336;
+        }
+
+        .chapter-nav a:hover,
+        .chapter-nav a.active {
+            background-color: #f44336;
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #222;
+        }
+
+        .search-bar input {
+            padding: 12px 15px;
+            font-size: 1.1rem;
+            width: 80%;
+            max-width: 500px;
+            background-color: #444;
+            color: white;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .search-bar input:focus {
+            background-color: #555;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+        }
+
+    
+        /* Video Cards Section */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            position: relative;
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #222;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .video-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: rotateY(5deg) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .video-card:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.7);
+        }
+
+        .video-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 10px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .video-title:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 8px #f44336, 0 0 10px #e91e63;
+        }
+
+        /* Video Player Overlay */
+        .video-player-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-player {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .video-player video {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            border-radius: 10px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px #f44336, 0 0 10px #f44336;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* No Results */
+        #no-results {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #ccc;
+            padding: 20px;
+            text-shadow: 0 0 8px #f44336, 0 0 20px #e91e63;
+        }
+
+        /* Suggestion Section */
+        #suggestion {
+            padding: 30px;
+            background-color: #222;
+            max-width: 1000px;
+            margin: 30px auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        #userSuggestion {
+            width: 100%;
+            height: 150px;
+            background: #333;
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 1px solid #444;
+            margin-bottom: 15px;
+            outline: none;
+            resize: none;
+            transition: all 0.3s ease;
+        }
+
+        #userSuggestion:focus {
+            background: #444;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .suggestion-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px #4CAF50, 0 0 15px #45a049;
+        }
+
+        .suggestion-btn:hover {
+            background-color: #45a049;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+
+<body>
+    
+    
+
+    <!-- Video Player Overlay -->
+    <div id="videoPlayerOverlay" class="video-player-overlay">
+        <button class="back-btn" onclick="closePlayer()">Back</button>
+        <div class="video-player">
+            <video id="videoPlayer" controls>
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <header>
+        <h1><b>WATCH MOVIES</b></h1>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="searchBox" placeholder="Search for a video..." oninput="searchVideos()">
+    </div>
+
+    <!-- No Results Found -->
+    <div id="no-results" style="display: none;"><b>Movie Not Available</b></div>
+
+          <!-- App Logo Section -->
+    <div class="app-logo-container">
+        <a href="https://iosmirror.cc/home?app=2" target="_blank">
+            <img src="https://static.vecteezy.com/system/resources/previews/017/396/804/non_2x/netflix-mobile-application-logo-free-png.png" alt="App Logo">
+        </a>
+        
+         <!-- App Logo Section -->
+    <div class="app-logo-container">
+        <a href="https://iosmirror.cc/home?app=2" target="_blank">
+            <img src="https://static.vecteezy.com/system/resources/previews/017/396/804/non_2x/netflix-mobile-application-logo-free-png.png" alt="App Logo">
+        </a>
+    </div>
+        
+        
+    </div>
+    
+        
+    
+    
+    <!-- Movie Categories Navigation (Horizontal Scrolling) -->
+    <div class="chapter-nav">
+        <a href="#" class="active" onclick="showChapter('latest')"><b>LATEST</b></a>
+        <a href="#" onclick="showChapter('bollywood')"><b>Bollywood Movies</b></a>
+        <a href="#" onclick="showChapter('south')"><b>South Movies</b></a>
+        <a href="#" onclick="showChapter('hollywood')"><b>Hollywood Movies</b></a>
+        <a href="#" onclick="showChapter('webseries')"><b>Web Series</b></a>
+        <a href="#" onclick="showChapter('suggestion')"><b>Suggestions</b></a>
+    </div>
+
+    <!-- Movie Categories Content -->
+    <div id="latest" class="grid-container"></div>
+    <div id="bollywood" class="grid-container"></div>
+    <div id="south" class="grid-container"></div>
+    <div id="hollywood" class="grid-container"></div>
+    <div id="webseries" class="grid-container"></div>
+    <div id="suggestion">
+        <textarea id="userSuggestion" placeholder="Write your suggestion here..."></textarea>
+        <button class="suggestion-btn" onclick="submitSuggestion()">Submit Suggestion</button>
+    </div>
+
+    <script>
+        const chapters = ['latest', 'bollywood', 'south', 'hollywood', 'webseries', 'suggestion'];
+        let movieData = {};
+
+        // Fetch movie data from GitHub
+        fetch('https://raw.githubusercontent.com/Sumitsingh2680/movie/refs/heads/main/movies.json')
+            .then(response => response.json())
+            .then(data => {
+                movieData = data;
+                // Populate content dynamically
+                chapters.forEach(chapter => {
+                    const container = document.getElementById(chapter);
+                    const movies = movieData[chapter] || [];
+                    movies.forEach((movie, index) => {
+                        const videoCard = document.createElement('div');
+                        videoCard.classList.add('video-card');
+                        videoCard.innerHTML = `
+                            <img src="${movie.image}" alt="${movie.title}">
+                            <div class="video-title"><b>${movie.title}</b></div>
+                        `;
+                        videoCard.onclick = function() {
+                            showVideoPlayer(movie.videoUrl);
+                        };
+                        container.appendChild(videoCard);
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching movie data:', error));
+
+        // Show video player
+        function showVideoPlayer(videoUrl) {
+            const overlay = document.getElementById('videoPlayerOverlay');
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = videoUrl;
+            overlay.style.display = 'flex';
+            videoPlayer.play();
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close video player
+        function closePlayer() {
+            const overlay = document.getElementById('videoPlayerOverlay');
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.pause();
+            videoPlayer.src = '';
+            overlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Search functionality
+        function searchVideos() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            let found = false;
+
+            chapters.forEach(chapter => {
+                const container = document.getElementById(chapter);
+                const videoCards = container.querySelectorAll('.video-card');
+
+                videoCards.forEach(card => {
+                    const title = card.querySelector('.video-title').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        card.style.display = '';
+                        found = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            document.getElementById('no-results').style.display = found ? 'none' : 'block';
+        }
+
+        // Suggestion form
+        function submitSuggestion() {
+            const suggestion = document.getElementById('userSuggestion').value;
+            alert(`Thank you for your suggestion: ${suggestion}`);
+            document.getElementById('userSuggestion').value = '';
+        }
+
+        // Show latest chapter by default
+        showChapter('latest');
+
+        // Show/hide chapters
+        function showChapter(chapter) {
+            chapters.forEach(ch => {
+                const element = document.getElementById(ch);
+                element.style.display = ch === chapter ? 'grid' : 'none';
+            });
+
+            // Update active state in navigation
+            document.querySelectorAll('.chapter-nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.textContent.toLowerCase().includes(chapter.toLowerCase())) {
+                    a.classList.add('active');
+                }
+            });
+        }
+    
+    
+    
+    
+    
+    </script>
+</body>
+
+</html>
