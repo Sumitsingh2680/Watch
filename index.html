@@ -10,8 +10,8 @@
         /* Global Styles */
         body {
             font-family: 'Poppins', sans-serif;
-            background: #121212;
-            color: #f0f0f0;
+            background: black;
+            color: black;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
@@ -20,35 +20,41 @@
         /* Header */
         header {
             background: linear-gradient(45deg, #f44336, #e91e63);
-            padding: 30px;
+            padding: 5px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transform: translateY(-10px);
         }
 
         header h1 {
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: 600;
-            color: white;
+            color: black;
             margin: 0;
             text-shadow: 0 0 10px #f44336, 0 0 20px #e91e63;
         }
 
-        
-        /* App Logo Section */
-        .app-logo-container {
+        /* Logo Scrolling Section */
+        .logo-scroll-container {
             display: flex;
-            justify-content: center;
-            padding: 20px;
+            overflow-x: auto;
+            gap: 5px;
+            padding: 5px;
+            background-color: black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        .app-logo-container img {
-            max-width: 50px;
+        .logo-scroll-container a {
+            display: inline-block;
+        }
+
+        .logo-scroll-container img {
+            max-width: 80px;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .app-logo-container img:hover {
+        .logo-scroll-container img:hover {
             transform: scale(1.1);
             box-shadow: 0 1px 5px rgba(255, 255, 255, 0.3);
         }
@@ -58,7 +64,7 @@
             display: flex;
             gap: 15px;
             padding: 15px;
-            background-color: #333;
+            background-color: black;
             overflow-x: auto;
             white-space: nowrap;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -89,7 +95,7 @@
             display: flex;
             justify-content: center;
             padding: 20px;
-            background-color: #222;
+            background-color: black;
         }
 
         .search-bar input {
@@ -97,7 +103,7 @@
             font-size: 1.1rem;
             width: 80%;
             max-width: 500px;
-            background-color: #444;
+            background-color: red;
             color: white;
             border-radius: 25px;
             border: none;
@@ -111,7 +117,6 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 1);
         }
 
-    
         /* Video Cards Section */
         .grid-container {
             display: grid;
@@ -170,58 +175,6 @@
             text-shadow: 0 0 8px #f44336, 0 0 10px #e91e63;
         }
 
-        /* Video Player Overlay */
-        .video-player-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .video-player {
-            position: relative;
-            width: 80%;
-            max-width: 900px;
-            background-color: #333;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-
-        .video-player video {
-            width: 100%;
-            height: auto;
-            max-height: 80vh;
-            border-radius: 10px;
-        }
-
-        .back-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 12px 18px;
-            border: none;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px #f44336, 0 0 10px #f44336;
-        }
-
-        .back-btn:hover {
-            background: rgba(0, 0, 0, 0.9);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-            transform: scale(1.05);
-        }
-
         /* No Results */
         #no-results {
             text-align: center;
@@ -231,76 +184,80 @@
             text-shadow: 0 0 8px #f44336, 0 0 20px #e91e63;
         }
 
-        /* Suggestion Section */
-        #suggestion {
-            padding: 30px;
-            background-color: #222;
-            max-width: 1000px;
-            margin: 30px auto;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        #userSuggestion {
+        /* Video Overlay */
+        .video-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 150px;
-            background: #333;
-            color: white;
-            border-radius: 10px;
-            padding: 15px;
-            font-size: 1.1rem;
-            border: 1px solid #444;
-            margin-bottom: 15px;
-            outline: none;
-            resize: none;
-            transition: all 0.3s ease;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
         }
 
-        #userSuggestion:focus {
-            background: #444;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        .video-overlay video {
+            max-width: 90%;
+            max-height: 80%;
         }
 
-        .suggestion-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            font-size: 1.1rem;
-            color: white;
-            background-color: #4CAF50;
+        .video-overlay button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: black;
             border: none;
-            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px #4CAF50, 0 0 15px #45a049;
+            border-radius: 5px;
+            z-index: 1050; /* Ensure the button stays above the video */
         }
 
-        .suggestion-btn:hover {
-            background-color: #45a049;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-            transform: translateY(-3px);
+        .video-overlay button:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        #fullscreenBtn {
+            top: 70px; /* Position the fullscreen button below the close button */
+            right: 20px;
         }
     </style>
 </head>
 
 <body>
-    
-    
-
-    <!-- Video Player Overlay -->
-    <div id="videoPlayerOverlay" class="video-player-overlay">
-        <button class="back-btn" onclick="closePlayer()">Back</button>
-        <div class="video-player">
-            <video id="videoPlayer" controls>
-                <source src="" type="video/mp4">
-            </video>
-        </div>
-    </div>
-
     <!-- Main Content -->
     <header>
         <h1><b>WATCH MOVIES</b></h1>
     </header>
+
+    <!-- Logo Scrolling Section -->
+    <div class="logo-scroll-container">
+        <a href="https://iosmirror.cc/home">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Netflix-new-icon.png" alt="Logo 1">
+        </a>
+        <a href="https://iosmirror.cc/home">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2iH56FmDsvedz0wqz8-lg0tZMlYvVGwx4e6aDiK3EoC-F4H0NeWYn25xe&s=10" alt="Logo 2">
+        </a>
+       <a href="https://www.mxplayer.in/?utm_source=perf_g&utm_medium=web&utm_campaign=Sem_brand_21732594131|165059303182|mx%20player&gad_source=1">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO039ECVjVKxnmSou22Wir_ATh3tmmCR9Uhw&usqp=CAU" alt="Logo 4">
+        </a>
+        <a href="https://www.jiocinema.com/movies">
+             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHqouYT1e_vD_HHmgRvGb7bCMcc1oSKuOJfA&usqp=CAU" alt="Logo 2">
+        </a>
+         <a href="https://tubitv.com/">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOCM1RXxtMvHhthGtw1V2iMZzmiqodVZS6BQ&usqp=CAU" alt="Logo 2">
+        </a>
+        <a href="https://chatgpt.com/">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYS0qSqSOEgIPwBdsyjjxrpEKksb3alCNL3g&usqp=CAU" alt="Logo 3">
+        </a>
+        <a href="https://sumitsingh2680.github.io/Watch/">
+            <img src="https://marketplace.canva.com/EAGJmZcXb9A/1/0/1600w/canva-blue-and-black-illustrative-gaming-esports-logo-TOClzfKQMvU.jpg" alt="Logo 4">
+        </a>
+    </div>
 
     <!-- Search Bar -->
     <div class="search-bar">
@@ -310,56 +267,38 @@
     <!-- No Results Found -->
     <div id="no-results" style="display: none;"><b>Movie Not Available</b></div>
 
-          <!-- App Logo Section -->
-    <div class="app-logo-container">
-        <a href="https://iosmirror.cc/home?app=2" target="_blank">
-            <img src="https://static.vecteezy.com/system/resources/previews/017/396/804/non_2x/netflix-mobile-application-logo-free-png.png" alt="App Logo">
-        </a>
-        
-         <!-- App Logo Section -->
-    <div class="app-logo-container">
-        <a href="https://ad-freegames.github.io/" target="_blank">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa-dFqNz8e9p9kFyhlOAIc4kUSmhVUHXsNww&usqp=CAU" alt="App Logo">
-        </a>
-    </div>
-        
-        
-    </div>
-    
-        
-    
-    
-    <!-- Movie Categories Navigation (Horizontal Scrolling) -->
+    <!-- Chapter Navigation -->
     <div class="chapter-nav">
         <a href="#" class="active" onclick="showChapter('latest')"><b>LATEST</b></a>
         <a href="#" onclick="showChapter('bollywood')"><b>Bollywood Movies</b></a>
         <a href="#" onclick="showChapter('south')"><b>South Movies</b></a>
         <a href="#" onclick="showChapter('hollywood')"><b>Hollywood Movies</b></a>
         <a href="#" onclick="showChapter('webseries')"><b>Web Series</b></a>
-        <a href="#" onclick="showChapter('suggestion')"><b>Suggestions</b></a>
     </div>
 
-    <!-- Movie Categories Content -->
+    <!-- Movie Grid Sections -->
     <div id="latest" class="grid-container"></div>
     <div id="bollywood" class="grid-container"></div>
     <div id="south" class="grid-container"></div>
     <div id="hollywood" class="grid-container"></div>
     <div id="webseries" class="grid-container"></div>
-    <div id="suggestion">
-        <textarea id="userSuggestion" placeholder="Write your suggestion here..."></textarea>
-        <button class="suggestion-btn" onclick="submitSuggestion()">Submit Suggestion</button>
+
+    <!-- Video Player Overlay -->
+    <div id="videoPlayerOverlay" class="video-overlay">
+        <video id="videoPlayer" controls></video>
+        <button id="closeBtn" onclick="closePlayer()">Close</button>
+        <button id="fullscreenBtn" onclick="toggleFullScreen()">Full Screen</button>
     </div>
 
+    <!-- JavaScript Code -->
     <script>
-        const chapters = ['latest', 'bollywood', 'south', 'hollywood', 'webseries', 'suggestion'];
+        const chapters = ['latest', 'bollywood', 'south', 'hollywood', 'webseries'];
         let movieData = {};
 
-        // Fetch movie data from GitHub
         fetch('https://raw.githubusercontent.com/Sumitsingh2680/movie/refs/heads/main/movies.json')
             .then(response => response.json())
             .then(data => {
                 movieData = data;
-                // Populate content dynamically
                 chapters.forEach(chapter => {
                     const container = document.getElementById(chapter);
                     const movies = movieData[chapter] || [];
@@ -370,7 +309,7 @@
                             <img src="${movie.image}" alt="${movie.title}">
                             <div class="video-title"><b>${movie.title}</b></div>
                         `;
-                        videoCard.onclick = function() {
+                        videoCard.onclick = function () {
                             showVideoPlayer(movie.videoUrl);
                         };
                         container.appendChild(videoCard);
@@ -379,7 +318,6 @@
             })
             .catch(error => console.error('Error fetching movie data:', error));
 
-        // Show video player
         function showVideoPlayer(videoUrl) {
             const overlay = document.getElementById('videoPlayerOverlay');
             const videoPlayer = document.getElementById('videoPlayer');
@@ -389,7 +327,6 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // Close video player
         function closePlayer() {
             const overlay = document.getElementById('videoPlayerOverlay');
             const videoPlayer = document.getElementById('videoPlayer');
@@ -399,13 +336,26 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Search functionality
+        function toggleFullScreen() {
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            if (videoPlayer.requestFullscreen) {
+                videoPlayer.requestFullscreen();
+            } else if (videoPlayer.mozRequestFullScreen) { 
+                videoPlayer.mozRequestFullScreen();
+            } else if (videoPlayer.webkitRequestFullscreen) { 
+                videoPlayer.webkitRequestFullscreen();
+            } else if (videoPlayer.msRequestFullscreen) { 
+                videoPlayer.msRequestFullscreen();
+            }
+        }
+
         function searchVideos() {
             const searchTerm = document.getElementById('searchBox').value.toLowerCase();
             let found = false;
 
-            chapters.forEach(chapter => {
-                const container = document.getElementById(chapter);
+            chapters.forEach(ch => {
+                const container = document.getElementById(ch);
                 const videoCards = container.querySelectorAll('.video-card');
 
                 videoCards.forEach(card => {
@@ -422,24 +372,12 @@
             document.getElementById('no-results').style.display = found ? 'none' : 'block';
         }
 
-        // Suggestion form
-        function submitSuggestion() {
-            const suggestion = document.getElementById('userSuggestion').value;
-            alert(`Thank you for your suggestion: ${suggestion}`);
-            document.getElementById('userSuggestion').value = '';
-        }
-
-        // Show latest chapter by default
-        showChapter('latest');
-
-        // Show/hide chapters
         function showChapter(chapter) {
             chapters.forEach(ch => {
                 const element = document.getElementById(ch);
                 element.style.display = ch === chapter ? 'grid' : 'none';
             });
 
-            // Update active state in navigation
             document.querySelectorAll('.chapter-nav a').forEach(a => {
                 a.classList.remove('active');
                 if (a.textContent.toLowerCase().includes(chapter.toLowerCase())) {
@@ -447,11 +385,6 @@
                 }
             });
         }
-    
-    
-    
-    
-    
     </script>
 </body>
 
