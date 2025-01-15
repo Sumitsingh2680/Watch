@@ -17,23 +17,6 @@
             overflow-x: hidden;
         }
 
-        /* Header */
-        header {
-            background: linear-gradient(45deg, #f44336, #e91e63);
-            padding: 5px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transform: translateY(-10px);
-        }
-
-        header h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: black;
-            margin: 0;
-            text-shadow: 0 0 10px #f44336, 0 0 20px #e91e63;
-        }
-
         /* Logo Scrolling Section */
         .logo-scroll-container {
             display: flex;
@@ -95,7 +78,7 @@
             display: flex;
             justify-content: center;
             padding: 20px;
-            background-color: black;
+            background-color:black;
         }
 
         .search-bar input {
@@ -103,7 +86,7 @@
             font-size: 1.1rem;
             width: 80%;
             max-width: 500px;
-            background-color: red;
+            background-color:#ff0000;
             color: white;
             border-radius: 25px;
             border: none;
@@ -225,14 +208,33 @@
             top: 70px; /* Position the fullscreen button below the close button */
             right: 20px;
         }
+
+        /* Refresh Arrow */
+        #refreshArrow {
+            display: none;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            color: #f44336;
+            animation: bounce 0.5s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-20px);
+            }
+        }
     </style>
 </head>
 
 <body>
     <!-- Main Content -->
-    <header>
-        <h1><b>WATCH MOVIES</b></h1>
-    </header>
 
     <!-- Logo Scrolling Section -->
     <div class="logo-scroll-container">
@@ -242,13 +244,13 @@
         <a href="https://iosmirror.cc/home">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2iH56FmDsvedz0wqz8-lg0tZMlYvVGwx4e6aDiK3EoC-F4H0NeWYn25xe&s=10" alt="Logo 2">
         </a>
-       <a href="https://www.mxplayer.in/?utm_source=perf_g&utm_medium=web&utm_campaign=Sem_brand_21732594131|165059303182|mx%20player&gad_source=1">
+        <a href="https://www.mxplayer.in/?utm_source=perf_g&utm_medium=web&utm_campaign=Sem_brand_21732594131|165059303182|mx%20player&gad_source=1">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO039ECVjVKxnmSou22Wir_ATh3tmmCR9Uhw&usqp=CAU" alt="Logo 4">
         </a>
         <a href="https://www.jiocinema.com/movies">
-             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHqouYT1e_vD_HHmgRvGb7bCMcc1oSKuOJfA&usqp=CAU" alt="Logo 2">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHqouYT1e_vD_HHmgRvGb7bCMcc1oSKuOJfA&usqp=CAU" alt="Logo 2">
         </a>
-         <a href="https://tubitv.com/">
+        <a href="https://tubitv.com/">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOCM1RXxtMvHhthGtw1V2iMZzmiqodVZS6BQ&usqp=CAU" alt="Logo 2">
         </a>
         <a href="https://chatgpt.com/">
@@ -290,10 +292,43 @@
         <button id="fullscreenBtn" onclick="toggleFullScreen()">Full Screen</button>
     </div>
 
+    <!-- Refresh Arrow -->
+    <div id="refreshArrow">
+        <i class="fas fa-sync-alt"></i>
+    </div>
+
     <!-- JavaScript Code -->
     <script>
         const chapters = ['latest', 'bollywood', 'south', 'hollywood', 'webseries'];
         let movieData = {};
+
+        // Initialize pull-to-refresh feature
+        let touchStartY = 0;
+        let isPullingDown = false;
+
+        document.addEventListener("touchstart", (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener("touchmove", (e) => {
+            if (window.scrollY === 0) {
+                let touchMoveY = e.touches[0].clientY;
+                if (touchMoveY > touchStartY + 50) {
+                    if (!isPullingDown) {
+                        isPullingDown = true;
+                        document.getElementById("refreshArrow").style.display = "block";
+                    }
+                }
+            }
+        });
+
+        document.addEventListener("touchend", () => {
+            if (isPullingDown) {
+                isPullingDown = false;
+                document.getElementById("refreshArrow").style.display = "none";
+                window.location.reload();
+            }
+        });
 
         fetch('https://raw.githubusercontent.com/Sumitsingh2680/movie/refs/heads/main/movies.json')
             .then(response => response.json())
@@ -375,7 +410,8 @@
         function showChapter(chapter) {
             chapters.forEach(ch => {
                 const element = document.getElementById(ch);
-                element.style.display = ch === chapter ? 'grid' : 'none';
+                element.style.display = ch === chapter 
+? 'grid' : 'none';
             });
 
             document.querySelectorAll('.chapter-nav a').forEach(a => {
