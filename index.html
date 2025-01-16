@@ -17,8 +17,6 @@
             overflow-x: hidden;
         }
 
-        
-
         /* Chapter Navigation */
         .chapter-nav {
             display: flex;
@@ -55,7 +53,7 @@
             display: flex;
             justify-content: center;
             padding: 20px;
-            background-color:black;
+            background-color: black;
         }
 
         .search-bar input {
@@ -63,7 +61,7 @@
             font-size: 1.1rem;
             width: 80%;
             max-width: 500px;
-            background-color:#ff0000;
+            background-color: #ff0000;
             color: white;
             border-radius: 25px;
             border: none;
@@ -159,8 +157,12 @@
         }
 
         .video-overlay video {
-            max-width: 90%;
-            max-height: 80%;
+            /* Fullscreen size */
+            width: 200vw; /* Full width */
+            height: 55vh; /* Full height */
+            object-fit: cover; /* Cover the screen */
+            transform: rotate(90deg); /* Rotate the video to landscape */
+            transform-origin: center center; /* Ensure it rotates from the center */
         }
 
         .video-overlay button {
@@ -213,8 +215,6 @@
 <body>
     <!-- Main Content -->
 
-    
-
     <!-- Search Bar -->
     <div class="search-bar">
         <input type="text" id="searchBox" placeholder="Search for a video..." oninput="searchVideos()">
@@ -243,7 +243,6 @@
     <div id="videoPlayerOverlay" class="video-overlay">
         <video id="videoPlayer" controls></video>
         <button id="closeBtn" onclick="closePlayer()">Close</button>
-        <button id="fullscreenBtn" onclick="toggleFullScreen()">Full Screen</button>
     </div>
 
     <!-- Refresh Arrow -->
@@ -255,34 +254,6 @@
     <script>
         const chapters = ['latest', 'bollywood', 'south', 'hollywood', 'webseries'];
         let movieData = {};
-
-        // Initialize pull-to-refresh feature
-        let touchStartY = 0;
-        let isPullingDown = false;
-
-        document.addEventListener("touchstart", (e) => {
-            touchStartY = e.touches[0].clientY;
-        });
-
-        document.addEventListener("touchmove", (e) => {
-            if (window.scrollY === 0) {
-                let touchMoveY = e.touches[0].clientY;
-                if (touchMoveY > touchStartY + 50) {
-                    if (!isPullingDown) {
-                        isPullingDown = true;
-                        document.getElementById("refreshArrow").style.display = "block";
-                    }
-                }
-            }
-        });
-
-        document.addEventListener("touchend", () => {
-            if (isPullingDown) {
-                isPullingDown = false;
-                document.getElementById("refreshArrow").style.display = "none";
-                window.location.reload();
-            }
-        });
 
         fetch('https://raw.githubusercontent.com/Sumitsingh2680/movie/refs/heads/main/movies.json')
             .then(response => response.json())
@@ -325,20 +296,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        function toggleFullScreen() {
-            const videoPlayer = document.getElementById('videoPlayer');
-
-            if (videoPlayer.requestFullscreen) {
-                videoPlayer.requestFullscreen();
-            } else if (videoPlayer.mozRequestFullScreen) { 
-                videoPlayer.mozRequestFullScreen();
-            } else if (videoPlayer.webkitRequestFullscreen) { 
-                videoPlayer.webkitRequestFullscreen();
-            } else if (videoPlayer.msRequestFullscreen) { 
-                videoPlayer.msRequestFullscreen();
-            }
-        }
-
         function searchVideos() {
             const searchTerm = document.getElementById('searchBox').value.toLowerCase();
             let found = false;
@@ -364,8 +321,8 @@
         function showChapter(chapter) {
             chapters.forEach(ch => {
                 const element = document.getElementById(ch);
-                element.style.display = ch === chapter 
-? 'grid' : 'none';
+                element.style.display = ch === chapter ? 'grid' : 'none';
+
             });
 
             document.querySelectorAll('.chapter-nav a').forEach(a => {
