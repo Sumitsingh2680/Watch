@@ -278,6 +278,7 @@
             })
             .catch(error => console.error('Error fetching movie data:', error));
 
+        // Function to show the video player
         function showVideoPlayer(videoUrl) {
             const overlay = document.getElementById('videoPlayerOverlay');
             const videoPlayer = document.getElementById('videoPlayer');
@@ -285,8 +286,12 @@
             overlay.style.display = 'flex';
             videoPlayer.play();
             document.body.style.overflow = 'hidden';
+
+            // Push state when video is opened
+            history.pushState({ page: 'video', videoUrl }, '', '');
         }
 
+        // Close the video player
         function closePlayer() {
             const overlay = document.getElementById('videoPlayerOverlay');
             const videoPlayer = document.getElementById('videoPlayer');
@@ -294,8 +299,12 @@
             videoPlayer.src = '';
             overlay.style.display = 'none';
             document.body.style.overflow = 'auto';
+            
+            // Push state to go back to previous state (e.g., video list)
+            history.pushState({ page: 'chapter', chapter: 'latest' }, '', '');
         }
 
+        // Function to search videos
         function searchVideos() {
             const searchTerm = document.getElementById('searchBox').value.toLowerCase();
             let found = false;
@@ -318,11 +327,11 @@
             document.getElementById('no-results').style.display = found ? 'none' : 'block';
         }
 
+        // Function to show a specific chapter
         function showChapter(chapter) {
             chapters.forEach(ch => {
                 const element = document.getElementById(ch);
                 element.style.display = ch === chapter ? 'grid' : 'none';
-
             });
 
             document.querySelectorAll('.chapter-nav a').forEach(a => {
@@ -331,7 +340,24 @@
                     a.classList.add('active');
                 }
             });
+
+            // Push state when a chapter is selected
+            history.pushState({ page: 'chapter', chapter }, '', '');
         }
+
+        // Function to handle the back button press
+        window.onpopstate = function (event) {
+            if (event.state) {
+                if (event.state.page === 'video') {
+                    // If user came back from video page, close the video player
+                    closePlayer();
+                } else if (event.state.page === 'chapter') {
+                    // If user came back to a chapter, show the respective chapter
+                    showChapter(event.state.chapter);
+                }
+            }
+        };
+
     </script>
 </body>
 
