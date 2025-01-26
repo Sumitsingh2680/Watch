@@ -228,7 +228,7 @@
         <a href="#" class="active" onclick="showChapter('latest')"><b>LATEST</b></a>
         <a href="#" onclick="showChapter('bollywood')"><b>Bollywood Movies</b></a>
         <a href="#" onclick="showChapter('south')"><b>South Movies</b></a>
-        <a href="#" onclick="showChapter('hollywood')"><b>Hollywood Movies</b></a>
+        <a href="#" onclick="showChapter('devotional')"><b>Devotional Movies</b></a>
         <a href="#" onclick="showChapter('webseries')"><b>Web Series</b></a>
     </div>
 
@@ -236,7 +236,7 @@
     <div id="latest" class="grid-container"></div>
     <div id="bollywood" class="grid-container"></div>
     <div id="south" class="grid-container"></div>
-    <div id="hollywood" class="grid-container"></div>
+    <div id="devotional" class="grid-container"></div>
     <div id="webseries" class="grid-container"></div>
 
     <!-- Video Player Overlay -->
@@ -252,7 +252,7 @@
 
     <!-- JavaScript Code -->
     <script>
-        const chapters = ['latest', 'bollywood', 'south', 'hollywood', 'webseries'];
+        const chapters = ['latest', 'bollywood', 'south', 'devotional', 'webseries'];
         let movieData = {};
 
         fetch('https://raw.githubusercontent.com/Sumitsingh2680/movie/refs/heads/main/movies.json')
